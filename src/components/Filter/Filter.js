@@ -1,10 +1,47 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
 
-const Filter = (props) => {
+const Filter = ({currentSort, setDataFilters, foundTickets}) => {
 
-    const {currentSort, setDataFilters} = props
+    let renderAirlines;
+    //data to construct filters
+    const initialFilterData = {
+        airlines: [],
+        priceMin: 0,
+        priceMax: 0,
+        transferMax: 0
+    }
 
+    if(foundTickets){
+        //get all airlines array
+       for(let i=0; i < foundTickets.length; i++){
+        if(!initialFilterData.airlines.includes(
+            foundTickets[i].flight.carrier.uid)){
+            initialFilterData.airlines.push(
+                foundTickets[i].flight.carrier.uid
+            )
+        }
+    }
+
+    renderAirlines = initialFilterData.airlines.map( a => {
+        return(
+           <ul key={a}>
+                <li>
+                    <input type="checkbox" name="subscribe" 
+                    value="newsletter"/>Name
+                </li>
+            </ul> 
+        )
+    })
+
+        //get possible prices
+        for(let i=0; i < foundTickets.length; i++){
+            
+        }
+    console.log(initialFilterData.airlines) 
+    }
+    
+    
     const onSetSort = (e) => {
         setDataFilters.setSorting(e.target.value)
     }
@@ -38,13 +75,13 @@ const Filter = (props) => {
                     <div>
                         <div>
                           <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"/>
-                            <label>Subscribe to newsletter?</label>  
+                            <label>без пересадок</label>  
                         </div>
                         
                         
                         <div>
                             <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"/>
-                            <label>Subscribe to newsletter?</label>  
+                            <label>1 пересадка</label>  
                         </div>
                         
                     </div>
@@ -60,11 +97,10 @@ const Filter = (props) => {
                     </div>
 
                     <div className={styles.h2}>Авиакомпании</div>
-                    <ul>
-                        <li>
-                            <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"/>Name
-                        </li>
-                    </ul>
+                    <div>
+                        {renderAirlines}
+                    </div>
+                    
                 </div>
                 </div>
             </Card>

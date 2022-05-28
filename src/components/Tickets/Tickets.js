@@ -2,13 +2,19 @@ import styles from './Tickets.module.css';
 import { Card } from '../Card/Card';
 import arrow from '../../assets/arrow.svg'
 
-const Tickets = ({ticketsData, ...props}) => {
+const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) => {
 
     const ticketsList = ticketsData
-    let renderTickets
+    let renderTickets;
+    let renderLoadBtn;
 
     const preloaderView = 0
     
+    const onLoadTickets = () => {
+        console.log('load moar')
+        loadTickets()
+    }
+
     if(ticketsList){
         renderTickets = ticketsList.map( t => {
         return(
@@ -76,10 +82,15 @@ const Tickets = ({ticketsData, ...props}) => {
     })
     }
     
+    renderLoadBtn = (
+    <div>
+        <button onClick={() => {onLoadTickets()}} disabled={loadedAll}>Загрузить еще</button>
+    </div>)
 
     return(
         <div className={styles.tickets}>
-            {ticketsList? renderTickets: 'Loading'}
+            {ticketsList? renderTickets : 'Loading'}
+            {ticketsList? renderLoadBtn : null}
         </div>
     )
 }

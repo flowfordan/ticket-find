@@ -1,6 +1,5 @@
 import styles from './App.module.css';
 import { Search } from './components';
-import tickets from './services/flights.json'
 import TicketsService from './services/apiTicketsService';
 import { APIServiceContext } from './context/apiContext';
 
