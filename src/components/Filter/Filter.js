@@ -16,12 +16,25 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
     if(initTickets){
         //get all airlines options
        for(let i=0; i < initTickets.length; i++){
-        if(!initialFilterData.airlines.includes(
-            initTickets[i].flight.carrier.uid)){
-            initialFilterData.airlines.push(
-                initTickets[i].flight.carrier.uid
-            )
+        let currentAirlines = initialFilterData.airlines.filter(item => {
+            return item.uid.indexOf(initTickets[i].flight.carrier.uid) > -1
+        })
+
+        if(currentAirlines.length === 0){
+            initialFilterData.airlines.push(initTickets[i].flight.carrier)
         }
+        
+
+        
+
+        console.log(currentAirlines)
+        console.log(initialFilterData.airlines)
+        // if(!initialFilterData.airlines.includes(
+        //     )){
+        //     initialFilterData.airlines.push(
+        //         initTickets[i].flight.carrier.uid
+        //     )
+        // }
     }
 
     //get all transfer options array
@@ -49,12 +62,13 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
     )
 
 
-    renderAirlines = initialFilterData.airlines.map( a => {
+    renderAirlines = initialFilterData.airlines.map( (a, idx) => {
         return(
-           <ul key={a}>
+           <ul key={a.uid}>
                 <li>
                     <input type="checkbox" name="subscribe" 
-                    value="newsletter"/>Name
+                    value="newsletter"/>
+                    <label>{a.caption}</label>
                 </li>
             </ul> 
         )
@@ -102,7 +116,6 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
                     <div className={styles.h1}>Фильтровать</div>
                     <div>
                         {renderTransferOptions}
-                        
                     </div>
 
                     <div className={styles.h2}>Цена</div>
