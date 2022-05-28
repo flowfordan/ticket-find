@@ -1,14 +1,16 @@
 import styles from './Tickets.module.css';
-import tickets from '../../services/flights.json';
 import { Card } from '../Card/Card';
 import arrow from '../../assets/arrow.svg'
 
-const Tickets = () => {
+const Tickets = ({ticketsData, ...props}) => {
 
-    const ticketsList = tickets.result.flights
+    const ticketsList = ticketsData
+    let renderTickets
 
     const preloaderView = 0
-    const renderTickets = ticketsList.map( t => {
+    
+    if(ticketsList){
+        renderTickets = ticketsList.map( t => {
         return(
             <Card key={t.flightToken}>
                 <div className={styles.ticketData}>
@@ -72,11 +74,12 @@ const Tickets = () => {
             </Card>
         )
     })
+    }
+    
 
     return(
         <div className={styles.tickets}>
-            {renderTickets}
-            Tickets
+            {ticketsList? renderTickets: 'Loading'}
         </div>
     )
 }

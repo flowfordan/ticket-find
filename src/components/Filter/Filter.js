@@ -1,25 +1,35 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
 
-const Filter = () => {
+const Filter = (props) => {
+
+    const {currentSort, setDataFilters} = props
+
+    const onSetSort = (e) => {
+        setDataFilters.setSorting(e.target.value)
+    }
+
 
     return(
-        <div>
+        <div className={styles.filterWrap}>
             <Card >
                 <div className={styles.filter}>
                 <div>
                     <div className={styles.h1}>Сортировать</div>
                     <div>
-                        <input type="radio" id="radioButton" name="contact" value="phone"/>
-                        <label>fdfdfd</label>
+                        <input type="radio" name="sort" value="priceUp" 
+                        checked={currentSort === "priceUp"} onChange={(e) => onSetSort(e)}/>
+                        <label>по возрастанию цены</label>
                     </div>
                     <div>
-                        <input type="radio" id="radioButton" name="contact" value="phone"/>
-                        <label>fdfdfd</label>
+                        <input type="radio" name="sort" value="priceDown" 
+                        checked={currentSort === "priceDown"} onChange={(e) => onSetSort(e)}/>
+                        <label>по убыванию цены</label>
                     </div>
                     <div>
-                        <input type="radio" id="radioButton" name="contact" value="phone"/>
-                        <label>fdfdfd</label>
+                        <input type="radio" name="sort" value="time" 
+                        checked={currentSort === "time"} onChange={(e) => onSetSort(e)}/>
+                        <label>по времени в пути</label>
                     </div>
                 </div>
 

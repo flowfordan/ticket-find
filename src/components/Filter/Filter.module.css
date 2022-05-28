@@ -5,6 +5,11 @@
     min-width: 300px;
 }
 
+.filterWrap{
+    position: sticky;
+    top: 20px;    
+}
+
 .h1{
     font-size: 16px;
     font-weight: 600;
