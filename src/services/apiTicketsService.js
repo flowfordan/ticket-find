@@ -13,9 +13,27 @@ export default class TicketsService {
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(currentData)
+                resolve(this._transformTicketsData(currentData))
             }, 700);
         })
     }
 
+
+    _transformTicketsData(data){
+        let flights = data
+        for(let i=0; i < flights.length; i++){
+            let transfersCount = 0;
+            
+            for(let j=0; j < flights[i].flight.legs.length; j++){
+                if(transfersCount > 0){
+                    transfersCount = flights[i].flight.legs[j].segments.length - 1 > transfersCount?
+                    flights[i].flight.legs[j].segments.length - 1: transfersCount;
+                }
+                transfersCount = flights[i].flight.legs[j].segments.length - 1
+                console.log(transfersCount)
+            }
+            flights[i].flight.transfers = transfersCount
+        }
+        return flights
+    }
 }
