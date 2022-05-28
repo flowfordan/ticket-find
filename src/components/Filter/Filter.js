@@ -10,32 +10,52 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
         airlines: [],
         priceMin: 0,
         priceMax: 0,
-        transferOptions: [] //from 0- w/out transfers to x
+        transferOptions: [] //from 0- w/out transfers to x  
     }
 
     if(initTickets){
         //get all airlines options
        for(let i=0; i < initTickets.length; i++){
+
         let currentAirlines = initialFilterData.airlines.filter(item => {
             return item.uid.indexOf(initTickets[i].flight.carrier.uid) > -1
         })
-
+        console.log(initTickets[i].flight.carrier)
         if(currentAirlines.length === 0){
-            initialFilterData.airlines.push(initTickets[i].flight.carrier)
+            initialFilterData.airlines.push(initTickets[i].flight.carrier)   
         }
         
-
-        
-
-        console.log(currentAirlines)
         console.log(initialFilterData.airlines)
-        // if(!initialFilterData.airlines.includes(
-        //     )){
-        //     initialFilterData.airlines.push(
-        //         initTickets[i].flight.carrier.uid
-        //     )
-        // }
-    }
+        
+        }
+
+        //get lowest prices by airline
+        for(let i=0; i < initialFilterData.airlines.length; i++){
+            initialFilterData.airlines[i].lowestPrice = 999999999999
+        }
+        
+        for(let i=0; i < initTickets.length; i++){
+            
+            
+
+            let currentPrice = Number(initTickets[i].flight.price.total.amount)
+            console.log(currentPrice)
+
+            let currentAirlineId = initTickets[i].flight.carrier.uid
+
+            let airlineIdx = initialFilterData.airlines.findIndex(el => el.uid === currentAirlineId)
+            
+            let prevPrice = initialFilterData.airlines[airlineIdx].lowestPrice
+            
+            
+            if(currentPrice < prevPrice){
+               initialFilterData.airlines[airlineIdx].lowestPrice = currentPrice
+               prevPrice = currentPrice 
+            }
+
+        }
+
+    console.log(initialFilterData.airlines)
 
     //get all transfer options array
     for(let i=0; i < initTickets.length; i++ ){
@@ -68,18 +88,13 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
                 <li>
                     <input type="checkbox" name="subscribe" 
                     value="newsletter"/>
-                    <label>{a.caption}</label>
+                    <label>{`${a.caption}, от ${a.lowestPrice} р.`}</label>
                 </li>
             </ul> 
         )
     })
 
-        //get possible prices
-        for(let i=0; i < initTickets.length; i++){
 
-        }
-    console.log(initialFilterData.airlines)
-    console.log(initialFilterData.transferOptions) 
     }
     
 
