@@ -28,14 +28,14 @@ const sortTickets = (arr, type) => {
 
         case 'time':
             sortedArr = [...arr.sort((a, b) => {
-                let durationA
+                let durationA = 0
                 a.flight.legs.forEach(element => {
-                    durationA = durationA + element.duration
+                    durationA = durationA + parseInt(element.duration)
                 });
 
-                let durationB
+                let durationB = 0
                 b.flight.legs.forEach(element => {
-                    durationB = durationB + element.duration
+                    durationB = durationB + parseInt(element.duration)
                 });
 
                 if(durationA > durationB){
@@ -46,10 +46,9 @@ const sortTickets = (arr, type) => {
                 }
                 return 0
             })]
-            console.log(sortedArr)
             return sortedArr
         default:
-            return
+            return sortedArr
     }
 }
 
