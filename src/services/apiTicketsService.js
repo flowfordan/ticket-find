@@ -22,15 +22,14 @@ export default class TicketsService {
     _transformTicketsData(data){
         let flights = data
         for(let i=0; i < flights.length; i++){
-            let transfersCount = 0;
+            let transfersCount = [];
             
             for(let j=0; j < flights[i].flight.legs.length; j++){
-                if(transfersCount > 0){
-                    transfersCount = flights[i].flight.legs[j].segments.length - 1 > transfersCount?
-                    flights[i].flight.legs[j].segments.length - 1: transfersCount;
+                if(transfersCount.includes(flights[i].flight.legs[j].segments.length - 1)){
+                    break
                 }
-                transfersCount = flights[i].flight.legs[j].segments.length - 1
-                console.log(transfersCount)
+                transfersCount.push(flights[i].flight.legs[j].segments.length - 1) 
+                
             }
             flights[i].flight.transfers = transfersCount
         }
