@@ -25,30 +25,23 @@ const Search = () => {
     //sorting state - priceUp, priceDown, time
     const [currentSort, setSort] = useState('priceUp')
 
-    //sort function
-
-
-    
-    console.log('currentSort', currentSort)
-
     const apiTicketsService = useContext(APIServiceContext);
 
     //om mount
     useEffect(() => {
         apiTicketsService.getTickets()
         .then((data) => {
-            setFilteredTickets(sortTickets(data, currentSort))
             setAllTickets(data)
-        })
-        
+            setFilteredTickets(sortTickets(data, currentSort))
+        })  
     },
      [])
     
 
      //change sort
     useEffect(() => {
-        if(tickets){
-            setFilteredTickets(sortTickets(tickets, currentSort))
+        if(filteredTickets){
+            setFilteredTickets(sortTickets(filteredTickets, currentSort))
         }
     }
     , [currentSort])
@@ -58,7 +51,6 @@ const Search = () => {
         if(filteredTickets){
             let lastEl = itemsPerPage * currentPage
             setTickets(filteredTickets.slice(0, lastEl))
-            
         }
     }
     , [filteredTickets, currentPage])
@@ -69,12 +61,7 @@ const Search = () => {
         }
     }, [tickets])
 
-    // useEffect(() => {
-    //     setPage(1)
-    // }, [])
-     //all airlines
-     //all prices - min and max
-     //all transfers
+
     const loadTickets = () => {
         setPage(prevP => prevP + 1)
     }
@@ -83,10 +70,6 @@ const Search = () => {
     const setDataFilters = {
         setSorting: setSort,
     }
-
-
-    console.log(currentPage)
-
     
     
     return(
@@ -98,8 +81,6 @@ const Search = () => {
                 currentSort={currentSort}
                 foundTickets={overallTickets}/>
             </div>
-            
-            
 
             <Tickets 
             ticketsData={tickets} 
