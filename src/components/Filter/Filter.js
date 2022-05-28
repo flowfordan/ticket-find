@@ -1,27 +1,53 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
 
-const Filter = ({currentSort, setDataFilters, foundTickets}) => {
+const Filter = ({currentSort, setDataFilters, initTickets}) => {
 
     let renderAirlines;
+    let renderTransferOptions;
     //data to construct filters
     const initialFilterData = {
         airlines: [],
         priceMin: 0,
         priceMax: 0,
-        transferMax: 0
+        transferOptions: [] //from 0- w/out transfers to x
     }
 
-    if(foundTickets){
-        //get all airlines array
-       for(let i=0; i < foundTickets.length; i++){
+    if(initTickets){
+        //get all airlines options
+       for(let i=0; i < initTickets.length; i++){
         if(!initialFilterData.airlines.includes(
-            foundTickets[i].flight.carrier.uid)){
+            initTickets[i].flight.carrier.uid)){
             initialFilterData.airlines.push(
-                foundTickets[i].flight.carrier.uid
+                initTickets[i].flight.carrier.uid
             )
         }
     }
+
+    //get all transfer options array
+    for(let i=0; i < initTickets.length; i++ ){
+        initialFilterData.transferOptions.push(initTickets[i].flight.transfers)
+        
+    }
+    initialFilterData.transferOptions = Array.from(
+        new Set(
+            initialFilterData.transferOptions.flat()
+        )
+    ).sort()
+    
+
+    //render transfer options
+    renderTransferOptions = initialFilterData.transferOptions.map(
+        t => {
+            return(
+                <div key={t}>
+                    <input type="checkbox" name="transfer" value={t}/>
+                    <label>{t === 0? 'без пересадок' : `${t} пересадка`}</label>  
+                </div>
+            )    
+        }
+    )
+
 
     renderAirlines = initialFilterData.airlines.map( a => {
         return(
@@ -35,13 +61,15 @@ const Filter = ({currentSort, setDataFilters, foundTickets}) => {
     })
 
         //get possible prices
-        for(let i=0; i < foundTickets.length; i++){
-            
+        for(let i=0; i < initTickets.length; i++){
+
         }
-    console.log(initialFilterData.airlines) 
+    console.log(initialFilterData.airlines)
+    console.log(initialFilterData.transferOptions) 
     }
     
-    
+
+
     const onSetSort = (e) => {
         setDataFilters.setSorting(e.target.value)
     }
@@ -73,16 +101,7 @@ const Filter = ({currentSort, setDataFilters, foundTickets}) => {
                 <div>
                     <div className={styles.h1}>Фильтровать</div>
                     <div>
-                        <div>
-                          <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"/>
-                            <label>без пересадок</label>  
-                        </div>
-                        
-                        
-                        <div>
-                            <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"/>
-                            <label>1 пересадка</label>  
-                        </div>
+                        {renderTransferOptions}
                         
                     </div>
 
