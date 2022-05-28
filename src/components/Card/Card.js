@@ -1,10 +1,10 @@
 import styles from './Card.module.css';
 
-const Card = () => {
+const Card = (props) => {
 
     return(
         <div className={styles.card}>
-            Card
+            {props.children}
         </div>
     )
 }

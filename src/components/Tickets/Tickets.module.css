@@ -1,0 +1,77 @@
+.tickets{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ticketData{
+    display: grid;
+    gap: 10px;
+}
+
+
+.ticketLeg:last-child{
+    border: none;
+}
+
+.ticketLeg{
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 20px;
+}
+
+.ticketHead{
+    display: flex;
+    justify-content: space-between;
+
+    background-color: var(--primary);
+
+    padding: 5px;
+    border-radius: 10px;
+
+    color: var(--white);
+}
+
+.ticketFromto{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+}
+
+.ticketDates{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ticketTransfer{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.ticketAirway{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ticketBtnWrap{}
+
+.ticketBtn{
+    width: 100%;
+}
+
+.arrowWrap{
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.arrow{
+    border-bottom: 1px solid black;
+    height: 50%;
+    margin-left: 10px;
+
+}
+
+.arrowImg{
+    max-height: 12px;
+    min-width: 12px;
+    margin-right: 10px;
+}
