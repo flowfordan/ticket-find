@@ -1,9 +1,10 @@
 
-const constructFilerData = (itemsArr) => {
+const constructFilterData = (itemsArr) => {
     //takes tickets array
     //returns object
     const filterData = {
         airlines: [],
+        chosenAirlines: [],
         priceMin: 10000000,
         priceMax: 0,
         transferOptions: [] //from 0- w/out transfers to x  
@@ -63,4 +64,4 @@ const constructFilerData = (itemsArr) => {
     return filterData;
 }
 
-export {constructFilerData}
+export {constructFilterData}

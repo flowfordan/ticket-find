@@ -1,8 +1,8 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
-import { constructFilerData } from '../../utils/constructFilterData';
+import { constructFilterData } from '../../utils/constructFilterData';
 
-const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filteredTickets, currentTransferFilter}) => {
+const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filteredTickets}) => {
 
     let renderAirlines;
     let renderTransferOptions;
@@ -21,8 +21,8 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
 
     if(initTickets){
         
-        initialFilterData = constructFilerData(initTickets);
-        updFilterData = constructFilerData(filteredTickets)
+        initialFilterData = constructFilterData(initTickets);
+        updFilterData = constructFilterData(filteredTickets);
         console.log(updFilterData)
         
         //RENDER
@@ -32,8 +32,9 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
             t => {
                 return(
                     <div key={t}>
-                        <input type="checkbox" name="transfer" value={t} 
-                        onChange={(e) => onSetFilter(e)} checked={currentFilters.transfers.includes(t)}/>
+                        <input type="checkbox" name="transfer" value={t}
+                        disabled={!updFilterData.transferOptions.includes(t)} 
+                        onChange={(e) => onSetTransferFilter(e)} checked={currentFilters.transfers.includes(t)}/>
                         <label>{t === 0? 'без пересадок' : `${t} пересадка`}</label>  
                     </div>
                 )    
@@ -41,8 +42,9 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
         );
 
         //render airlines list
-        
         renderAirlines = initialFilterData.airlines.map( (a, idx) => {
+
+            //check if filters put in airlines
             let airlineActive = updFilterData.airlines.filter( item => {
                 return item.uid === a.uid
             })
@@ -56,8 +58,11 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
             return(
             <ul key={a.uid}>
                     <li>
-                        <input type="checkbox" name="subscribe" 
-                        value="newsletter" disabled={airlineActive.length === 0}/>
+                        <input type="checkbox" name="airline" 
+                        value={a.uid} 
+                        disabled={airlineActive.length === 0}
+                        checked={currentFilters.airlines.findIndex(item => { return item.uid === a.uid }) > -1}
+                        onChange={(e) => onSetAirlineFilter(e)}/>
                         <label>{a.caption}{airlineActive.length === 0? null : `, от ${priceActive} р.`}</label>
                     </li>
                 </ul> 
@@ -71,11 +76,11 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
         <>
         <div>
             От:
-            <input type="number" placeholder={initialFilterData.priceMin}/>
+            <input type="number" placeholder={updFilterData.priceMin}/>
         </div>
         <div>
             До:
-            <input type="number" placeholder={initialFilterData.priceMax}/>
+            <input type="number" placeholder={updFilterData.priceMax}/>
         </div>
         </>)
 
@@ -88,10 +93,10 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
     }
 
     //filter
-    const onSetFilter = (e) => {
+    const onSetTransferFilter = (e) => {
         //remove or add transfers
-        let transfersOptions = parseInt(e.target.value)
-        let transferIdx = currentFilters.transfers.indexOf(transfersOptions);
+        let transferOption = parseInt(e.target.value)
+        let transferIdx = currentFilters.transfers.indexOf(transferOption);
         if(transferIdx > -1){
             setDataFilters.setCurrentFilters(
                 prevState => ({...prevState, transfers: 
@@ -100,13 +105,42 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
                         ...prevState.transfers.slice(transferIdx + 1)
                     ]
                 })
-                
             )
         } else {
             setDataFilters.setCurrentFilters(
                 prevState => ({
                     ...prevState,
-                    transfers: [...prevState.transfers, transfersOptions]
+                    transfers: [...prevState.transfers, transferOption]
+                })
+            )
+        }
+    }
+
+    //airlines filter
+    const onSetAirlineFilter = (e) => {
+        console.log(e.target.value)
+        let airlineOptionUid = e.target.value; //obj with line data
+        let airlineidx = currentFilters.airlines.findIndex(item => {
+            return item.uid === airlineOptionUid
+        })
+        if(airlineidx > -1){
+            setDataFilters.setCurrentFilters(
+                prevState => ({
+                    ...prevState, 
+                    airlines: [
+                    ...prevState.airlines.slice(0, airlineidx),
+                    ...prevState.airlines.slice(airlineidx + 1)
+                ]
+                })
+            )
+        }else{
+            let airlineOption = initialFilterData.airlines.find(item => {
+                return item.uid === airlineOptionUid
+            })
+            setDataFilters.setCurrentFilters(
+                prevState => ({
+                    ...prevState,
+                    airlines: [...prevState.airlines, airlineOption]
                 })
             )
         }
