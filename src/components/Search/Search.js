@@ -54,11 +54,6 @@ const Search = () => {
                 sortTickets(
                     filterTickets([overallTickets, currentFilters])[0]
                     , currentSort)
-            );
-            setPreFilteredTickets(
-                sortTickets(
-                    preFilterTickets([overallTickets, currentFilters])[0]
-                    , currentSort)
             )
         } 
     },
@@ -88,7 +83,7 @@ const Search = () => {
         setCurrentFilters: setCurrentFilters,
     }
     
-    console.log(filteredTickets)
+    console.log(currentFilters)
     
     return(
         <div className={styles.search}>

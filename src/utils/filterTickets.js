@@ -43,16 +43,24 @@ const filterByAirlines = (data) => {
 };
 
 const filterByPriceMin = (data) => {
-    let priceMin = data[1].priceMin;
+    let newPriceMin = data[1].priceMin;
     let filteredTickets = data[0];
-
+    if(newPriceMin !== ''){
+        filteredTickets = filteredTickets.filter(item => {
+            return parseInt(item.flight.price.total.amount) > parseInt(newPriceMin)
+        })
+    }
     return [filteredTickets, data[1]]
 };
 
 const filterByPriceMax = (data) => {
-    let priceMax = data[1].priceMax;
+    let newPriceMax = data[1].priceMax;
     let filteredTickets = data[0];
-
+    if(newPriceMax !== ''){
+        filteredTickets = filteredTickets.filter(item => {
+            return parseInt(item.flight.price.total.amount) < parseInt(newPriceMax)
+        })
+    }
     return [filteredTickets, data[1]]
 };
 
