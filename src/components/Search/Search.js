@@ -4,28 +4,30 @@ import { Filter } from '../Filter/Filter';
 import { Tickets } from '../Tickets/Tickets';
 import { APIServiceContext } from '../../context/apiContext';
 import { sortTickets } from '../../utils/sortTickets';
+import { filterByTransfer } from '../../utils/filterTickets';
 
 const Search = () => {
-
+    const apiTicketsService = useContext(APIServiceContext);
     const itemsPerPage = 5;
-    const [loadedAll, toggleLoadedAll] = useState(false)
 
-    //all tickets by search
-    const [overallTickets, setAllTickets] = useState(null)
-
-    //filtered or sorted array of all tickets
-    const [filteredTickets, setFilteredTickets] = useState(null)
-
-    //tickets to show
-    const [tickets, setTickets] = useState(null)
-
+    //observe last page
+    const [loadedAll, toggleLoadedAll] = useState(false);
     //currentPage
-    const [currentPage, setPage] = useState(2)
+        const [currentPage, setPage] = useState(2);
+    
+    //all tickets by search
+    const [overallTickets, setAllTickets] = useState(null);
+    //filtered or sorted array of all tickets
+    const [filteredTickets, setFilteredTickets] = useState(null);
+    //tickets to show
+    const [tickets, setTickets] = useState(null);
 
     //sorting state - priceUp, priceDown, time
-    const [currentSort, setSort] = useState('priceUp')
+    const [currentSort, setSort] = useState('priceUp');
+    //filter transfer state
+    const [currentTransfer, setTransferFilter] = useState([])
 
-    const apiTicketsService = useContext(APIServiceContext);
+    console.log('TRANSFER',currentTransfer)
 
     //om mount
     useEffect(() => {
@@ -38,13 +40,24 @@ const Search = () => {
      [])
     
 
-     //change sort
+    //change sort
     useEffect(() => {
         if(filteredTickets){
-            setFilteredTickets(sortTickets(filteredTickets, currentSort))
+            setFilteredTickets(
+                sortTickets(filteredTickets, currentSort)
+            )
         }
     }
     , [currentSort])
+
+    //filter by transfer
+    useEffect(() => {
+        if(filteredTickets){
+            setFilteredTickets(filterByTransfer(overallTickets, currentTransfer))
+        }
+        
+    },
+    [currentTransfer])
 
     //set tickets to render - according to page
     useEffect(() => {
@@ -61,27 +74,27 @@ const Search = () => {
         }
     }, [tickets])
 
-
     const loadTickets = () => {
         setPage(prevP => prevP + 1)
     }
     
-
     const setDataFilters = {
         setSorting: setSort,
+        setTransferFilter: setTransferFilter,
     }
     
+    console.log(filteredTickets)
     
     return(
         <div className={styles.search}>
-
             <div>
                 <Filter 
-                setDataFilters={setDataFilters} 
+                setDataFilters={setDataFilters}
+                currentTransferFilter={currentTransfer} 
                 currentSort={currentSort}
-                initTickets={overallTickets}/>
+                initTickets={overallTickets}
+                filteredTickets={filteredTickets}/>
             </div>
-
             <Tickets 
             ticketsData={tickets} 
             loadTickets={loadTickets}

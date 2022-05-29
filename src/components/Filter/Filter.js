@@ -1,68 +1,29 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
+import { constructFilerData } from '../../utils/constructFilterData';
 
-const Filter = ({currentSort, setDataFilters, initTickets}) => {
+const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, currentTransferFilter}) => {
 
     let renderAirlines;
     let renderTransferOptions;
     let renderPrices;
+
     //data to construct filters
-    const initialFilterData = {
+    
+    let initialFilterData = {
         airlines: [],
         priceMin: 10000000,
         priceMax: 0,
         transferOptions: [] //from 0- w/out transfers to x  
-    }
+    };
+    let updFilterData;
+
 
     if(initTickets){
-        //DATA
-        //get all airlines options
-       for(let i=0; i < initTickets.length; i++){
-        let currentAirlines = initialFilterData.airlines.filter(item => {
-            return item.uid.indexOf(initTickets[i].flight.carrier.uid) > -1
-        })
-        if(currentAirlines.length === 0){
-            initialFilterData.airlines.push(initTickets[i].flight.carrier)   
-        }
-        }
-
-        //get lowest prices by airline
-        for(let i=0; i < initialFilterData.airlines.length; i++){
-            initialFilterData.airlines[i].lowestPrice = 999999999999
-        }
         
-        for(let i=0; i < initTickets.length; i++){
-            let currentPrice = Number(initTickets[i].flight.price.total.amount);
-            let currentAirlineId = initTickets[i].flight.carrier.uid;
-            let airlineIdx = initialFilterData.airlines.findIndex(el => el.uid === currentAirlineId);
-            let prevPrice = initialFilterData.airlines[airlineIdx].lowestPrice;
-            
-            if(currentPrice < prevPrice){
-               initialFilterData.airlines[airlineIdx].lowestPrice = currentPrice
-               prevPrice = currentPrice 
-            };
-        }
-
-        //get all transfer options array
-        for(let i=0; i < initTickets.length; i++ ){
-            initialFilterData.transferOptions.push(initTickets[i].flight.transfers)
-        }
-        initialFilterData.transferOptions = Array
-        .from(new Set(initialFilterData.transferOptions
-        .flat()))
-        .sort();
-    
-        //get min/max actual prices for all
-        for(let i=0; i < initTickets.length; i++ ){
-            let currentPrice = parseInt(initTickets[i].flight.price.total.amount)
-            if(currentPrice < initialFilterData.priceMin){
-                initialFilterData.priceMin = currentPrice
-            }
-            if(currentPrice > initialFilterData.priceMax){
-                initialFilterData.priceMax = currentPrice
-            }
-        }
-
+        initialFilterData = constructFilerData(initTickets);
+        updFilterData = constructFilerData(filteredTickets)
+        console.log(updFilterData)
         
         //RENDER
         //render transfer options list
@@ -70,7 +31,8 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
             t => {
                 return(
                     <div key={t}>
-                        <input type="checkbox" name="transfer" value={t}/>
+                        <input type="checkbox" name="transfer" value={t} 
+                        onChange={(e) => onSetFilter(e)} checked={currentTransferFilter.includes(t)}/>
                         <label>{t === 0? 'без пересадок' : `${t} пересадка`}</label>  
                     </div>
                 )    
@@ -78,13 +40,18 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
         );
 
         //render airlines list
+        
         renderAirlines = initialFilterData.airlines.map( (a, idx) => {
+            let airlineActive = updFilterData.airlines.filter( item => {
+                return item.uid === a.uid
+            }) 
+
             return(
             <ul key={a.uid}>
                     <li>
                         <input type="checkbox" name="subscribe" 
-                        value="newsletter"/>
-                        <label>{`${a.caption}, от ${a.lowestPrice} р.`}</label>
+                        value="newsletter" disabled={airlineActive.length === 0}/>
+                        <label>{a.caption}{airlineActive.length === 0? null : `, от ${a.lowestPrice} р.`}</label>
                     </li>
                 </ul> 
             )
@@ -109,6 +76,25 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
     //sorting
     const onSetSort = (e) => {
         setDataFilters.setSorting(e.target.value)
+    }
+
+    //filter
+    const onSetFilter = (e) => {
+        //remove or add
+        let transfersOptions = parseInt(e.target.value)
+        let transferIdx = currentTransferFilter.indexOf(transfersOptions);
+        if(transferIdx > -1){
+            setDataFilters.setTransferFilter(
+                prevArr => [
+                    ...prevArr.slice(0, transferIdx),
+                    ...prevArr.slice(transferIdx + 1)
+                ]
+            )
+        } else {
+            setDataFilters.setTransferFilter(
+                prevArr => [...prevArr, transfersOptions]
+            )
+        }
     }
 
 
@@ -137,6 +123,7 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
 
                 <div>
                     <div className={styles.h1}>Фильтровать</div>
+                    <div className={styles.h2}>Пересадки</div>
                     <div>
                         {renderTransferOptions && renderTransferOptions}
                     </div>
@@ -145,13 +132,10 @@ const Filter = ({currentSort, setDataFilters, initTickets}) => {
                         <div>
                             {renderPrices && renderPrices}
                         </div>
-                    
-
                     <div className={styles.h2}>Авиакомпании</div>
                     <div>
                         {renderAirlines && renderAirlines}
-                    </div>
-                    
+                    </div> 
                 </div>
                 </div>
             </Card>
