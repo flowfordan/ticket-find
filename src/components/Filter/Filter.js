@@ -44,14 +44,20 @@ const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, curr
         renderAirlines = initialFilterData.airlines.map( (a, idx) => {
             let airlineActive = updFilterData.airlines.filter( item => {
                 return item.uid === a.uid
-            }) 
+            })
+
+            //set actual min prices
+            let priceActive = a.lowestPrice;
+            if(airlineActive.length > 0){
+                priceActive = airlineActive[0].lowestPrice
+            }
 
             return(
             <ul key={a.uid}>
                     <li>
                         <input type="checkbox" name="subscribe" 
                         value="newsletter" disabled={airlineActive.length === 0}/>
-                        <label>{a.caption}{airlineActive.length === 0? null : `, от ${a.lowestPrice} р.`}</label>
+                        <label>{a.caption}{airlineActive.length === 0? null : `, от ${priceActive} р.`}</label>
                     </li>
                 </ul> 
             )
