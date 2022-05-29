@@ -5,6 +5,7 @@ import { Tickets } from '../Tickets/Tickets';
 import { APIServiceContext } from '../../context/apiContext';
 import { sortTickets } from '../../utils/sortTickets';
 import { filterByTransfer } from '../../utils/filterTickets';
+import { filterTickets } from '../../utils/filterTickets';
 
 const Search = () => {
     const apiTicketsService = useContext(APIServiceContext);
@@ -25,9 +26,18 @@ const Search = () => {
     //sorting state - priceUp, priceDown, time
     const [currentSort, setSort] = useState('priceUp');
     //filter transfer state
-    const [currentTransfer, setTransferFilter] = useState([])
+    const [currentTransfer, setTransferFilter] = useState([]);
 
-    console.log('TRANSFER',currentTransfer)
+    const [currentFilters, setCurrentFilters] = useState(
+        {
+            transfers: [],
+            priceMin: 0,
+            priceMax: 0,
+            airlines: []
+        }
+    )
+        console.log('STATE FILTER', currentFilters)
+    
 
     //om mount
     useEffect(() => {
@@ -50,14 +60,13 @@ const Search = () => {
     }
     , [currentSort])
 
-    //filter by transfer
+    //filter
     useEffect(() => {
         if(filteredTickets){
-            setFilteredTickets(filterByTransfer(overallTickets, currentTransfer))
-        }
-        
+            setFilteredTickets(sortTickets(filterTickets(overallTickets, currentFilters), currentSort))
+        } 
     },
-    [currentTransfer])
+    [currentFilters])
 
     //set tickets to render - according to page
     useEffect(() => {
@@ -80,7 +89,7 @@ const Search = () => {
     
     const setDataFilters = {
         setSorting: setSort,
-        setTransferFilter: setTransferFilter,
+        setCurrentFilters: setCurrentFilters,
     }
     
     console.log(filteredTickets)
@@ -90,6 +99,7 @@ const Search = () => {
             <div>
                 <Filter 
                 setDataFilters={setDataFilters}
+                currentFilters={currentFilters}
                 currentTransferFilter={currentTransfer} 
                 currentSort={currentSort}
                 initTickets={overallTickets}

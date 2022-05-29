@@ -2,7 +2,7 @@ import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
 import { constructFilerData } from '../../utils/constructFilterData';
 
-const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, currentTransferFilter}) => {
+const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filteredTickets, currentTransferFilter}) => {
 
     let renderAirlines;
     let renderTransferOptions;
@@ -27,12 +27,13 @@ const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, curr
         
         //RENDER
         //render transfer options list
-        renderTransferOptions = initialFilterData.transferOptions.map(
+        if(currentFilters){
+          renderTransferOptions = initialFilterData.transferOptions.map(
             t => {
                 return(
                     <div key={t}>
                         <input type="checkbox" name="transfer" value={t} 
-                        onChange={(e) => onSetFilter(e)} checked={currentTransferFilter.includes(t)}/>
+                        onChange={(e) => onSetFilter(e)} checked={currentFilters.transfers.includes(t)}/>
                         <label>{t === 0? 'без пересадок' : `${t} пересадка`}</label>  
                     </div>
                 )    
@@ -61,7 +62,9 @@ const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, curr
                     </li>
                 </ul> 
             )
-        });
+        });  
+        }
+        
 
         //render min/max prices placeholders
         renderPrices = (
@@ -86,19 +89,25 @@ const Filter = ({currentSort, setDataFilters, initTickets, filteredTickets, curr
 
     //filter
     const onSetFilter = (e) => {
-        //remove or add
+        //remove or add transfers
         let transfersOptions = parseInt(e.target.value)
-        let transferIdx = currentTransferFilter.indexOf(transfersOptions);
+        let transferIdx = currentFilters.transfers.indexOf(transfersOptions);
         if(transferIdx > -1){
-            setDataFilters.setTransferFilter(
-                prevArr => [
-                    ...prevArr.slice(0, transferIdx),
-                    ...prevArr.slice(transferIdx + 1)
-                ]
+            setDataFilters.setCurrentFilters(
+                prevState => ({...prevState, transfers: 
+                    [
+                        ...prevState.transfers.slice(0, transferIdx),
+                        ...prevState.transfers.slice(transferIdx + 1)
+                    ]
+                })
+                
             )
         } else {
-            setDataFilters.setTransferFilter(
-                prevArr => [...prevArr, transfersOptions]
+            setDataFilters.setCurrentFilters(
+                prevState => ({
+                    ...prevState,
+                    transfers: [...prevState.transfers, transfersOptions]
+                })
             )
         }
     }
