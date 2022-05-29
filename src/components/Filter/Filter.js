@@ -1,9 +1,12 @@
 import styles from './Filter.module.css';
 import { Card } from '../Card/Card';
 import { constructFilterData } from '../../utils/constructFilterData';
+import { useState, useEffect } from 'react';
 
 const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filteredTickets}) => {
 
+    const [priceMin, setPriceMin] = useState('')
+    const [priceMax, setPriceMax] = useState('')
     let renderAirlines;
     let renderTransferOptions;
     let renderPrices;
@@ -19,11 +22,11 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
     let updFilterData;
 
 
+
     if(initTickets){
         
         initialFilterData = constructFilterData(initTickets);
         updFilterData = constructFilterData(filteredTickets);
-        console.log(updFilterData)
         
         //RENDER
         //render transfer options list
@@ -76,11 +79,13 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
         <>
         <div>
             От:
-            <input type="number" placeholder={updFilterData.priceMin}/>
+            <input type="number" name="priceMin" placeholder={updFilterData.priceMin}
+            onChange={(e) => onPriceChange(e)} value={priceMin}/>
         </div>
         <div>
             До:
-            <input type="number" placeholder={updFilterData.priceMax}/>
+            <input type="number" name="priceMax" placeholder={updFilterData.priceMax}
+            onChange={(e) => onPriceChange(e)} value={priceMax}/>
         </div>
         </>)
 
@@ -118,7 +123,6 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
 
     //airlines filter
     const onSetAirlineFilter = (e) => {
-        console.log(e.target.value)
         let airlineOptionUid = e.target.value; //obj with line data
         let airlineidx = currentFilters.airlines.findIndex(item => {
             return item.uid === airlineOptionUid
@@ -146,6 +150,38 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
         }
     }
 
+    const onPriceChange = (e) => {
+        switch(e.target.name){
+            case 'priceMin':
+                setPriceMin(e.target.value)
+                return;
+            case 'priceMax':
+                setPriceMax(e.target.value)
+                return;
+            default:
+                return;
+        }   
+    }
+
+    useEffect(() => {
+        setDataFilters.setCurrentFilters(
+            prevState => ({
+                ...prevState,
+                priceMin: priceMin
+            })
+        )
+    }, 
+    [priceMin, priceMax])
+
+    useEffect(() => {
+        setDataFilters.setCurrentFilters(
+            prevState => ({
+                ...prevState,
+                priceMax: priceMax
+            })
+        )
+    }, 
+    [priceMax])
 
     return(
         <div className={styles.filterWrap}>
