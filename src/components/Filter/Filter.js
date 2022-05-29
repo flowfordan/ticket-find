@@ -153,36 +153,40 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
                 <div className={styles.filter}>
                 <div>
                     <div className={styles.h1}>Сортировать</div>
-                    <div>
-                        <input type="radio" name="sort" value="priceUp" 
-                        checked={currentSort === "priceUp"} onChange={(e) => onSetSort(e)}/>
-                        <label>по возрастанию цены</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="sort" value="priceDown" 
-                        checked={currentSort === "priceDown"} onChange={(e) => onSetSort(e)}/>
-                        <label>по убыванию цены</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="sort" value="time" 
-                        checked={currentSort === "time"} onChange={(e) => onSetSort(e)}/>
-                        <label>по времени в пути</label>
+                    <div className={styles.filterSection}>
+                        <div>
+                            <input type="radio" name="sort" value="priceUp" 
+                            checked={currentSort === "priceUp"} onChange={(e) => onSetSort(e)}/>
+                            <label>по возрастанию цены</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" name="sort" value="priceDown" 
+                            checked={currentSort === "priceDown"} onChange={(e) => onSetSort(e)}/>
+                            <label>по убыванию цены</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" name="sort" value="time" 
+                            checked={currentSort === "time"} onChange={(e) => onSetSort(e)}/>
+                            <label>по времени в пути</label>
+                        </div>
                     </div>
                 </div>
 
                 <div>
                     <div className={styles.h1}>Фильтровать</div>
                     <div className={styles.h2}>Пересадки</div>
-                    <div>
+                    <div className={styles.filterSection}>
                         {renderTransferOptions && renderTransferOptions}
                     </div>
 
                     <div className={styles.h2}>Цена</div>
-                        <div>
+                        <div className={styles.filterSection}>
                             {renderPrices && renderPrices}
                         </div>
                     <div className={styles.h2}>Авиакомпании</div>
-                    <div>
+                    <div className={styles.filterSection}>
                         {renderAirlines && renderAirlines}
                     </div> 
                 </div>
