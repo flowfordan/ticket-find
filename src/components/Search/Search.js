@@ -79,7 +79,7 @@ const Search = () => {
                 <Filter 
                 setDataFilters={setDataFilters} 
                 currentSort={currentSort}
-                foundTickets={overallTickets}/>
+                initTickets={overallTickets}/>
             </div>
 
             <Tickets 
