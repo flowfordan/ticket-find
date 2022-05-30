@@ -98,7 +98,7 @@ const Search = () => {
 
     return(
         <div className={styles.search}>
-            <div>
+            <div className={styles.filterWrap}>
                 <Filter 
                 setDataFilters={setDataFilters}
                 currentFilters={currentFilters}
@@ -106,12 +106,15 @@ const Search = () => {
                 initTickets={overallTickets}
                 filteredTickets={filteredTickets}/>
             </div>
-            <Tickets
-            isLoading={isLoading}
-            isError={isError} 
-            ticketsData={tickets} 
-            loadTickets={loadTickets}
-            loadedAll={loadedAll}/>
+            <div className={styles.ticketsWrap}>
+                <Tickets
+                isLoading={isLoading}
+                isError={isError} 
+                ticketsData={tickets} 
+                loadTickets={loadTickets}
+                loadedAll={loadedAll}/>
+            </div>
+            
         </div>
     )
 }

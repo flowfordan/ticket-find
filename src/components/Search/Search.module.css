@@ -1,6 +1,16 @@
 .search{
     display: grid;
-    grid-template-columns: minmax(320px, 500px) 1fr;
+    grid-template-columns: minmax(auto, 250px) minmax(320px, 450px) 1fr minmax(auto, 250px);
+    grid-template-areas: 
+    ". filter tickets .";
     padding: 20px;
     gap: 20px;
+}
+
+.filterWrap{
+    grid-area: filter;
+}
+
+.ticketsWrap{
+    grid-area: tickets;
 }
