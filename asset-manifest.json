@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/ticket-find/static/css/main.ea3ba2aa.css",
+    "main.js": "/ticket-find/static/js/main.ae81d40a.js",
+    "static/media/spinner.svg": "/ticket-find/static/media/spinner.685e7c1af2c18779b28af6d2dc653ac2.svg",
+    "index.html": "/ticket-find/index.html",
+    "static/media/clock.svg": "/ticket-find/static/media/clock.8ac79c67cfc90f27fc75d6210e589983.svg",
+    "static/media/arrow.svg": "/ticket-find/static/media/arrow.e3ba7051bd2ccc6079a5d7c68c9ce6f1.svg",
+    "main.ea3ba2aa.css.map": "/ticket-find/static/css/main.ea3ba2aa.css.map",
+    "main.ae81d40a.js.map": "/ticket-find/static/js/main.ae81d40a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ea3ba2aa.css",
+    "static/js/main.ae81d40a.js"
+  ]
+}
