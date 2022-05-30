@@ -5,14 +5,15 @@ import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import arrow from '../../assets/arrow.svg';
 import clock from '../../assets/clock.svg';
+import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
 
-const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading,...props}) => {
+const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading, isError, ...props}) => {
 
     const ticketsList = ticketsData
     let renderTickets;
     let renderLoadBtn;
-
-    const preloaderView = 0
+    let errorView;
+    let loadingView;
     
     const onLoadTickets = () => {
         loadTickets()
@@ -123,19 +124,34 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading,..
     })
     }
     
-    renderLoadBtn = (
+     renderLoadBtn = (
     <div>
         <Button onClick={() => {onLoadTickets()}} disabled={loadedAll} appearance='ghost'>
             Загрузить еще
         </Button>
     </div>)
 
+    errorView = (
+        <>
+        {isError? <ErrorIndicator/> : null}
+        </>
+    );
+
+    loadingView = (
+        <>
+        {isLoading? <Spinner /> : null}
+        </>
+    )
+
+
     return(
         <div className={styles.tickets}>
-            {ticketsList && !isLoading? renderTickets : <Spinner />}
+            {errorView}
+            {loadingView}
+            {renderTickets}
             {ticketsList && !isLoading? renderLoadBtn : null}
         </div>
-    )
+    )  
 }
 
 export { Tickets }

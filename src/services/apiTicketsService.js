@@ -13,6 +13,10 @@ export default class TicketsService {
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
+                if(Math.random() > 0.9){
+                    reject(new Error('Something wrong')) 
+                 }
+                //error simulation
                 resolve(this._transformTicketsData(currentData))
             }, 700);
         })

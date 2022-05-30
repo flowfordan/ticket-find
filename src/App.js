@@ -3,17 +3,16 @@ import { Search } from './components';
 import TicketsService from './services/apiTicketsService';
 import { APIServiceContext } from './context/apiContext';
 
-
-
 function App() {
 
   const apiService = new TicketsService();
 
   return (
     <APIServiceContext.Provider value={apiService}>
+      
       <div className={styles.app}>
         <header className={styles.header}>Tickets Find</header>
-        <Search />
+          <Search />
       </div>
     </APIServiceContext.Provider>
   );

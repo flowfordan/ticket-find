@@ -11,6 +11,7 @@ const Search = () => {
     const itemsPerPage = 5;
 
     const [isLoading, toggleLoading] = useState(false);
+    const [isError, toggleError] = useState(false);
     //observe last page
     const [loadedAll, toggleLoadedAll] = useState(false);
     //currentPage
@@ -41,10 +42,15 @@ const Search = () => {
         toggleLoading(true)
         apiTicketsService.getTickets()
         .then((data) => {
+            toggleError(false)
             setAllTickets(data)
             setFilteredTickets(sortTickets(data, currentSort))
             toggleLoading(false)
-        })  
+            
+        })
+        .catch(
+            () => onError()
+        )  
     },
      [])
     
@@ -85,6 +91,12 @@ const Search = () => {
         setCurrentFilters: setCurrentFilters,
     }
     
+    const onError = () => {
+        toggleLoading(false);
+        toggleError(true)
+    }
+        console.log(isError, isLoading)
+
     return(
         <div className={styles.search}>
             <div>
@@ -96,7 +108,8 @@ const Search = () => {
                 filteredTickets={filteredTickets}/>
             </div>
             <Tickets
-            isLoading={isLoading} 
+            isLoading={isLoading}
+            isError={isError} 
             ticketsData={tickets} 
             loadTickets={loadTickets}
             loadedAll={loadedAll}/>
