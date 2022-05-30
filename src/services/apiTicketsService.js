@@ -21,6 +21,8 @@ export default class TicketsService {
 
     _transformTicketsData(data){
         let flights = data
+
+        //get transfers count per ticket
         for(let i=0; i < flights.length; i++){
             let transfersCount = 0;
             
@@ -33,6 +35,14 @@ export default class TicketsService {
             }
             flights[i].flight.transfers = transfersCount
         }
+
+        //get airline pics
+        for(let i=0; i < flights.length; i++){
+            flights[i].flight.carrierLogo = `//pics.avs.io/99/36/${flights[i].flight.carrier.uid}.png`
+        }
+
         return flights
     }
 }
+
+// //pics.avs.io/99/36/{IATA_CODE_HERE}.png

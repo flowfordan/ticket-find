@@ -1,4 +1,4 @@
-import { getTime, getDayOfYear, getDayOfWeek } from '../../utils/formatDate';
+import { getTime, getDayOfYear, getDayOfWeek, getDuration } from '../../utils/formatDate';
 import styles from './Tickets.module.css';
 import { Card } from '../Card/Card';
 import arrow from '../../assets/arrow.svg'
@@ -34,8 +34,8 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
             <Card key={t.flightToken}>
                 <div className={styles.ticketData}>
                     <div className={styles.ticketHead}>
-                        <div>{t.flight.carrier.caption}</div>
-                        <div>{`${t.flight.price.total.amount} ₽`} </div>
+                        <img src={t.flight.carrierLogo} alt="ailine-logo" className={styles.airlineLogo}/>
+                        <span>{`${t.flight.price.total.amount} ₽`} </span>
                     </div>
 
                     <div className={styles.ticketLegs}>
@@ -62,16 +62,14 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
                                     </div>
 
                                     <div className={styles.ticketDates}>
-
                                         {renderDate(leg.segments[0].departureDate)}
-
-                                        <span>{leg.duration}</span>
-                                        <span>{leg.segments[leg.segments.length - 1].arrivalDate}</span>
+                                        <span>{getDuration(leg.duration)}</span>
+                                        {renderDate(leg.segments[leg.segments.length - 1].arrivalDate)}
                                     </div>
 
                                     <div className={styles.ticketTransfer}>
                                         <span><hr/></span>
-                                        <span>{leg.segments.length - 1 === 0? `без пересадок`: `пересадки ${leg.segments.length - 1}`}</span>
+                                        <span>{leg.segments.length - 1 === 0? `без пересадок`: `${leg.segments.length - 1} пересадка`}</span>
                                         <span><hr/></span>
                                     </div>
 

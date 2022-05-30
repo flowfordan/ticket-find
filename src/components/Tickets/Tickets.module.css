@@ -9,6 +9,9 @@
     gap: 10px;
 }
 
+.ticketLegs{
+    padding: 0 10px;
+}
 
 .ticketLeg:last-child{
     border: none;
@@ -22,18 +25,25 @@
 .ticketHead{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    align-content: center;
 
     background-color: var(--primary);
 
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;
 
     color: var(--white);
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .ticketFromto{
     display: grid;
     grid-template-columns: auto 1fr auto;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--grey-light);
 }
 
 .ticketDates{
@@ -73,4 +83,9 @@
     max-height: 12px;
     min-width: 12px;
     margin-right: 10px;
+}
+
+.airlineLogo{
+    max-height: 30px;
+    align-items: center;
 }

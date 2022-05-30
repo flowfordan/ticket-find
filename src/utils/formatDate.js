@@ -24,7 +24,6 @@ const getDayOfWeek = (date) => {
     let day = date.split('T')[0];
     //2020-08-19,18:10:00 -> 18:10:00 -> 18:10
     const dayOfWeek = new Date(day).getDay();
-    debugger
     return isNaN(dayOfWeek) ? null : 
     ['вс', 'пн', 'вт', 
     'ср', 'чт', 'пт', 'сб'][dayOfWeek];  

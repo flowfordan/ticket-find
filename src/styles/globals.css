@@ -26,13 +26,19 @@ ul {
 
 :root {
 	--black: #3B434E;
+
 	--grey-light:#EBEBEB;
 	--grey-dark: #787D85;
 	--grey-main: #a0a7b3;
 	--grey: #A4A4A4;
+
 	--white: white;
-	--primary: #1790FF;
+
+	--primary: #00C3E4;
 	--primary-hover: #167cdb;
+
+	--secondary: #FFB04D;
+	
 	--red: #FC836D;
 	--green: #1DC37E;
 	--green-light: #C8F8E4;
