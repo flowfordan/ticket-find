@@ -34,11 +34,11 @@ ul {
 
 	--white: white;
 
-	--primary: #00C3E4;
-	--primary-hover: #167cdb;
+	--primary: #4a9cff;
+	--primary-hover: rgb(21, 112, 197);
 
-	--secondary: #FFB04D;
-	--secondary-hover: #eba652;
+	--secondary: #ffb452;
+	--secondary-hover: #e7a650;
 
 	--red: #FC836D;
 	--green: #1DC37E;

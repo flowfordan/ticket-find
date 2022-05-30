@@ -61,14 +61,15 @@
 }
 
 .ticketTime, .airport{
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
-    align-self: baseline;
+    align-self: center;
 }
 
 .ticketDay, .airportUid{
     color: var(--primary);
-    align-self: baseline;
+    align-self: center;
+    font-size: 18px;
 }
 
 .ticketDuration{
@@ -110,12 +111,14 @@
 .arrowWrap{
     display: grid;
     grid-template-columns: 1fr auto;
+    align-items: center;
 }
 
 .arrow{
     border-bottom: 1px solid var(--primary);
     height: 50%;
     margin-left: 10px;
+    margin-bottom: 14px;
 }
 
 .arrowImg{

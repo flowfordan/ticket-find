@@ -14,7 +14,6 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
     const preloaderView = 0
     
     const onLoadTickets = () => {
-        console.log('load moar')
         loadTickets()
     }
 
@@ -57,7 +56,7 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
             <Card key={t.flightToken}>
                 <div className={styles.ticketData}>
                     <div className={styles.ticketHead}>
-                        <img src={t.flight.carrierLogo} alt="ailine-logo" className={styles.airlineLogo}/>
+                        <img src={t.flight.carrierLogo} alt="airline-logo" className={styles.airlineLogo}/>
                         <span>{`${t.flight.price.total.amount} ₽`} </span>
                     </div>
 
