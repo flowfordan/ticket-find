@@ -14,6 +14,7 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading, i
     let renderLoadBtn;
     let errorView;
     let loadingView;
+    let dataView;
     
     const onLoadTickets = () => {
         loadTickets()
@@ -143,12 +144,18 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading, i
         </>
     )
 
+    dataView = (
+        <>
+        {!isError && !isLoading? renderTickets : null}
+        </>
+    )
+
 
     return(
         <div className={styles.tickets}>
             {errorView}
             {loadingView}
-            {renderTickets}
+            {dataView}
             {ticketsList && !isLoading? renderLoadBtn : null}
         </div>
     )  

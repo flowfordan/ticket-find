@@ -95,7 +95,6 @@ const Search = () => {
         toggleLoading(false);
         toggleError(true)
     }
-        console.log(isError, isLoading)
 
     return(
         <div className={styles.search}>
