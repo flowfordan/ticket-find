@@ -11,7 +11,6 @@ const compose =
 //     priceMax: 0,
 //     airlines: []
 // }
-
 const filterByTransfer = (data) => {
     let filteredTransfers = data[1].transfers;
     let filteredTickets = data[0];
@@ -71,11 +70,4 @@ const filterTickets = compose(
     filterByPriceMax
 );
 
-const preFilterTickets = compose(
-    filterByTransfer,
-    filterByAirlines,
-    filterByPriceMin,
-    filterByPriceMax
-);
-
-export {filterTickets, preFilterTickets}
+export {filterTickets}

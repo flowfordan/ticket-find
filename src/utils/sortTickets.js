@@ -10,8 +10,7 @@ const sortTickets = (arr, type) => {
                     return -1;
                 }
                 return 0
-            })]
-            console.log(sortedArr)    
+            })]   
             return sortedArr
         case 'priceDown':
             sortedArr = [...arr.sort((a, b) => {

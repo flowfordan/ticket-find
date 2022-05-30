@@ -4,7 +4,7 @@ import { Filter } from '../Filter/Filter';
 import { Tickets } from '../Tickets/Tickets';
 import { APIServiceContext } from '../../context/apiContext';
 import { sortTickets } from '../../utils/sortTickets';
-import { filterTickets, preFilterTickets } from '../../utils/filterTickets';
+import { filterTickets } from '../../utils/filterTickets';
 
 const Search = () => {
     const apiTicketsService = useContext(APIServiceContext);
@@ -13,13 +13,12 @@ const Search = () => {
     //observe last page
     const [loadedAll, toggleLoadedAll] = useState(false);
     //currentPage
-    const [currentPage, setPage] = useState(2);
+    const [currentPage, setPage] = useState(1);
     
     //all tickets by search
     const [overallTickets, setAllTickets] = useState(null);
     //filtered or sorted array of all tickets
     const [filteredTickets, setFilteredTickets] = useState(null);
-    const [preFilteredTickets, setPreFilteredTickets] = useState(null);
     //tickets to show
     const [tickets, setTickets] = useState(null);
 
@@ -82,8 +81,6 @@ const Search = () => {
         setSorting: setSort,
         setCurrentFilters: setCurrentFilters,
     }
-    
-    console.log(currentFilters)
     
     return(
         <div className={styles.search}>

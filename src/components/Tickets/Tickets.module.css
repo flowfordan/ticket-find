@@ -64,10 +64,9 @@
 }
 
 .arrow{
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--primary);
     height: 50%;
     margin-left: 10px;
-
 }
 
 .arrowImg{

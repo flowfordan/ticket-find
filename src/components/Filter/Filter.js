@@ -21,8 +21,6 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
     };
     let updFilterData;
 
-
-
     if(initTickets){
         
         initialFilterData = constructFilterData(initTickets);

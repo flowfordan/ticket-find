@@ -12,7 +12,7 @@ function App() {
   return (
     <APIServiceContext.Provider value={apiService}>
       <div className={styles.app}>
-        <header className={styles.header}>Header</header>
+        <header className={styles.header}>Tickets Find</header>
         <Search />
       </div>
     </APIServiceContext.Provider>

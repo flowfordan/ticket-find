@@ -7,4 +7,6 @@
 .header{
     background-color: var(--primary);
     padding: 20px;
+    color: var(--white);
+    font-weight: 600;
 }
