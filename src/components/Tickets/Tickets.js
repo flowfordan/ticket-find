@@ -1,7 +1,9 @@
 import { getTime, getDayOfYear, getDayOfWeek, getDuration } from '../../utils/formatDate';
 import styles from './Tickets.module.css';
 import { Card } from '../Card/Card';
-import arrow from '../../assets/arrow.svg'
+import { Button } from '../Button/Button';
+import arrow from '../../assets/arrow.svg';
+import clock from '../../assets/clock.svg';
 
 const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) => {
 
@@ -18,12 +20,33 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
 
     if(ticketsList){
 
-        const renderDate = (date) => {
+        const renderDate = (date, rev = false) => {
+            return(
+                <span className={styles.ticketTimeDay}>
+                    {rev?
+                        <>
+                        <span className={styles.ticketDay}>{`${getDayOfYear(date)} ${getDayOfWeek(date)}`}</span>
+                        <span className={styles.ticketTime}>{getTime(date)}</span>
+                        </> 
+                        :
+                        <>
+                        <span className={styles.ticketTime}>{getTime(date)}</span>
+                        <span className={styles.ticketDay}>{`${getDayOfYear(date)} ${getDayOfWeek(date)}`}</span>
+                        </>    
+                    } 
+                </span>
+            )
+        }
+
+        const renderAirportWCity = (city, airport) => {
             return(
                 <span>
-                    <span>{getTime(date)}</span>
-                    <span>{getDayOfYear(date)}</span>
-                    <span>{getDayOfWeek(date)}</span>
+                    <span className={styles.airport}>
+                        {`${city.caption}, ${airport.caption}`}
+                    </span>
+                    <span className={styles.airportUid}>
+                        {` (${airport.uid})`}
+                    </span>
                 </span>
             )
         }
@@ -44,33 +67,33 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
                             return(
                                 <div className={styles.ticketLeg} key={idx}>
                                     <div className={styles.ticketFromto}>
-                                       <span>
-                                        {`${leg.segments[0].departureCity.caption}, 
-                                       ${leg.segments[0].departureAirport.caption} 
-                                       (${leg.segments[0].departureAirport.uid})`}</span>
-                                            
+                                       {renderAirportWCity(leg.segments[0].departureCity, leg.segments[0].departureAirport)} 
                                         <span className={styles.arrowWrap}>
                                             <span className={styles.arrow}></span>
-                                            <span><img src={arrow} className={styles.arrowImg} alt="arrow"/></span>
+                                            <span>
+                                                <img src={arrow} className={styles.arrowImg} alt="arrow"/>
+                                            </span>
                                         </span>
-                                           
-                                       <span>{`${leg.segments[leg.segments.length - 1].arrivalCity.caption}, 
-                                       ${leg.segments[leg.segments.length - 1].arrivalAirport.caption}
-                                       (${leg.segments[leg.segments.length - 1].arrivalAirport.uid})`} </span>
-                                       
-                                       
+                                        {renderAirportWCity(
+                                            leg.segments[leg.segments.length - 1].arrivalCity, 
+                                            leg.segments[leg.segments.length - 1].arrivalAirport)}
                                     </div>
 
                                     <div className={styles.ticketDates}>
                                         {renderDate(leg.segments[0].departureDate)}
-                                        <span>{getDuration(leg.duration)}</span>
-                                        {renderDate(leg.segments[leg.segments.length - 1].arrivalDate)}
+                                        <span className={styles.ticketDuration}>
+                                            <img src={clock} className={styles.clockImg} alt="arrow"/>
+                                            {getDuration(leg.duration)}
+                                        </span>
+                                        {renderDate(leg.segments[leg.segments.length - 1].arrivalDate, true)}
                                     </div>
 
                                     <div className={styles.ticketTransfer}>
-                                        <span><hr/></span>
-                                        <span>{leg.segments.length - 1 === 0? `без пересадок`: `${leg.segments.length - 1} пересадка`}</span>
-                                        <span><hr/></span>
+                                        <span><hr className={styles.ticketTransferLine}/></span>
+                                        <span className={styles.ticketTransferText}>
+                                            {leg.segments.length - 1 === 0? `без пересадок`: `${leg.segments.length - 1} пересадка`}
+                                        </span>
+                                        <span><hr className={styles.ticketTransferLine}/></span>
                                     </div>
 
                                     <div className={styles.ticketAirway}>
@@ -90,7 +113,7 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
                     </div>
                    
                     <div className={styles.ticketBtnWrap}>
-                        <button>ВЫБРАТЬ</button>
+                        <Button appearance='primary'>ВЫБРАТЬ</Button>
                     </div>
 
                 </div>
@@ -102,7 +125,9 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
     
     renderLoadBtn = (
     <div>
-        <button onClick={() => {onLoadTickets()}} disabled={loadedAll}>Загрузить еще</button>
+        <Button onClick={() => {onLoadTickets()}} disabled={loadedAll} appearance='ghost'>
+            Загрузить еще
+        </Button>
     </div>)
 
     return(

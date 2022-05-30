@@ -15,11 +15,13 @@
 
 .ticketLeg:last-child{
     border: none;
+    margin-bottom: 0;
 }
 
 .ticketLeg{
     border-bottom: 2px solid var(--primary);
-    margin-bottom: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .ticketHead{
@@ -52,14 +54,51 @@
     justify-content: space-between;
 }
 
+.ticketTimeDay{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;    
+}
+
+.ticketTime, .airport{
+    font-size: 20px;
+    font-weight: 500;
+    align-self: baseline;
+}
+
+.ticketDay, .airportUid{
+    color: var(--primary);
+    align-self: baseline;
+}
+
+.ticketDuration{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+
 .ticketTransfer{
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    padding: 0 50px;
+}
+
+.ticketTransferLine{
+    border-top: 1px solid var(--grey-main);
+}
+
+.ticketTransferText{
+    margin: 0 15px;
+    color: var(--secondary);
+    font-weight: 500;
 }
 
 .ticketAirway{
     display: flex;
     justify-content: flex-start;
+    padding-top: 10px;
+    font-size: 14px;
 }
 
 .ticketBtnWrap{}
@@ -83,6 +122,12 @@
     max-height: 12px;
     min-width: 12px;
     margin-right: 10px;
+}
+
+.clockImg{
+    max-height: 15px;
+    min-width: 12px;
+    margin-right: 8px;
 }
 
 .airlineLogo{
