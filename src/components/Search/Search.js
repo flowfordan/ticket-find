@@ -10,6 +10,7 @@ const Search = () => {
     const apiTicketsService = useContext(APIServiceContext);
     const itemsPerPage = 5;
 
+    const [isLoading, toggleLoading] = useState(false);
     //observe last page
     const [loadedAll, toggleLoadedAll] = useState(false);
     //currentPage
@@ -37,10 +38,12 @@ const Search = () => {
     
     //om mount
     useEffect(() => {
+        toggleLoading(true)
         apiTicketsService.getTickets()
         .then((data) => {
             setAllTickets(data)
             setFilteredTickets(sortTickets(data, currentSort))
+            toggleLoading(false)
         })  
     },
      [])
@@ -92,7 +95,8 @@ const Search = () => {
                 initTickets={overallTickets}
                 filteredTickets={filteredTickets}/>
             </div>
-            <Tickets 
+            <Tickets
+            isLoading={isLoading} 
             ticketsData={tickets} 
             loadTickets={loadTickets}
             loadedAll={loadedAll}/>

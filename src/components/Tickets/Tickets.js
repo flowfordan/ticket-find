@@ -2,10 +2,11 @@ import { getTime, getDayOfYear, getDayOfWeek, getDuration } from '../../utils/fo
 import styles from './Tickets.module.css';
 import { Card } from '../Card/Card';
 import { Button } from '../Button/Button';
+import { Spinner } from '../Spinner/Spinner';
 import arrow from '../../assets/arrow.svg';
 import clock from '../../assets/clock.svg';
 
-const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) => {
+const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, isLoading,...props}) => {
 
     const ticketsList = ticketsData
     let renderTickets;
@@ -131,8 +132,8 @@ const Tickets = ({ticketsData, loadTickets, currentPage, loadedAll, ...props}) =
 
     return(
         <div className={styles.tickets}>
-            {ticketsList? renderTickets : 'Loading'}
-            {ticketsList? renderLoadBtn : null}
+            {ticketsList && !isLoading? renderTickets : <Spinner />}
+            {ticketsList && !isLoading? renderLoadBtn : null}
         </div>
     )
 }
