@@ -1,0 +1,73 @@
+.button {
+    display: flex;  
+    box-sizing: border-box;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+  
+    font-size: 18px;
+    min-width: 100%;
+  }
+  
+
+
+  .primary {
+      color: var(--white);
+      background-color: var(--secondary);
+      border: 1px solid var(--secondary);
+      transition: all 0.2s;
+  }
+  
+  .primary:hover {
+      background-color: var(--secondary-hover);
+  }
+
+  .primary:disabled {
+    background-color: var(--grey-main);
+}
+
+.ghost:disabled {
+    background-color: var(--grey-light);
+    color: var(--grey-main);
+}
+  
+  .ghost {
+      color: var(--black);
+      background-color: none;
+      border: 1px solid var(--grey-main);
+      transition: all 0.2s;
+      padding: 5px;
+  }
+  
+  .ghost:hover:enabled {
+      color: var(--white);
+      background-color: var(--grey-main);
+  }
+  
+
+  .img{
+      max-width: 20px;
+      max-height: 20px;
+  }
+
+  .arrow {
+      display: flex;
+      margin-right: 10px;
+      max-width: 100%;
+      max-height: 100%;
+      transition: all 0.2s;
+  }
+  
+  .down {
+      transform: rotate(90deg);
+      transition: all 0.2s;
+  }
+  
+  .primary svg,
+  .ghost:hover svg {
+      fill: var(--white)
+  }
