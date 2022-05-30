@@ -26,8 +26,14 @@ const getDayOfWeek = (date) => {
     const dayOfWeek = new Date(day).getDay();
     debugger
     return isNaN(dayOfWeek) ? null : 
-    ['вс.', 'пн.', 'вт.', 
-    'ср.', 'чт.', 'пт.', 'сб.'][dayOfWeek];  
+    ['вс', 'пн', 'вт', 
+    'ср', 'чт', 'пт', 'сб'][dayOfWeek];  
 }
 
-export {getDayOfYear, getTime, getDayOfWeek}
+const getDuration = (minutesSum) => {
+    let hours = Math.trunc(parseInt(minutesSum)/60);
+    let minutes = parseInt(minutesSum) % 60;
+    return `${hours} ч ${minutes} мин`
+}
+
+export {getDayOfYear, getTime, getDayOfWeek, getDuration}
