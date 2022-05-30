@@ -32,7 +32,7 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
           renderTransferOptions = initialFilterData.transferOptions.map(
             t => {
                 return(
-                    <div key={t}>
+                    <div key={t} className={styles.filterElement}>
                         <input type="checkbox" name="transfer" value={t}
                         disabled={!updFilterData.transferOptions.includes(t)} 
                         onChange={(e) => onSetTransferFilter(e)} checked={currentFilters.transfers.includes(t)}/>
@@ -58,7 +58,7 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
 
             return(
             <ul key={a.uid}>
-                    <li>
+                    <li className={styles.filterElement}>
                         <input type="checkbox" name="airline" 
                         value={a.uid} 
                         disabled={airlineActive.length === 0}
@@ -75,12 +75,12 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
         //render min/max prices placeholders
         renderPrices = (
         <>
-        <div>
+        <div className={styles.filterElement}>
             От:
             <input type="number" name="priceMin" placeholder={updFilterData.priceMin}
             onChange={(e) => onPriceChange(e)} value={priceMin}/>
         </div>
-        <div>
+        <div className={styles.filterElement}>
             До:
             <input type="number" name="priceMax" placeholder={updFilterData.priceMax}
             onChange={(e) => onPriceChange(e)} value={priceMax}/>
@@ -188,19 +188,19 @@ const Filter = ({currentSort, currentFilters, setDataFilters, initTickets, filte
                 <div>
                     <div className={styles.h1}>Сортировать</div>
                     <div className={styles.filterSection}>
-                        <div>
+                        <div className={styles.filterElement}>
                             <input type="radio" name="sort" value="priceUp" 
                             checked={currentSort === "priceUp"} onChange={(e) => onSetSort(e)}/>
                             <label>по возрастанию цены</label>
                         </div>
 
-                        <div>
+                        <div className={styles.filterElement}>
                             <input type="radio" name="sort" value="priceDown" 
                             checked={currentSort === "priceDown"} onChange={(e) => onSetSort(e)}/>
                             <label>по убыванию цены</label>
                         </div>
 
-                        <div>
+                        <div className={styles.filterElement}>
                             <input type="radio" name="sort" value="time" 
                             checked={currentSort === "time"} onChange={(e) => onSetSort(e)}/>
                             <label>по времени в пути</label>

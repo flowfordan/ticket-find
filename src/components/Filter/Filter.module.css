@@ -11,7 +11,17 @@
 }
 
 .filterSection{
-    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    padding-left: 20px;
+}
+
+.filterElement{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 .h1{
